@@ -16,7 +16,7 @@ export class ProductController {
       if (productErrors.length > 0) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ errors: productErrors });
+          .json({ errors: productErrors.map((err) => err.constraints) });
       }
       cloudinary.v2.uploader.upload(
         req.file?.path,
@@ -49,16 +49,17 @@ export class ProductController {
       });
     }
   }
+
   async findProductsByCategoryController(req: Request, res: Response) {
     try {
       const categoryIdDTO = new CategoryIdDTO({
-        categoryId: parseInt(req.params.id, 10), 
+        categoryId: parseInt(req.params.id, 10),
       });
       const categoryIdErrors = await validate(categoryIdDTO);
       if (categoryIdErrors.length > 0) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ errors: categoryIdErrors });
+          .json({ errors: categoryIdErrors.map((err) => err.constraints) });
       }
 
       const products = await productCollection.findProductsByCategory(
