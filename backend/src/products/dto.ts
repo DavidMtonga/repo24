@@ -10,7 +10,7 @@ import {
 
 export class CategoryIdDTO {
   @IsNotEmpty()
-  @Min(1)
+  @Min(0)
   @IsNumber()
   @IsPositive()
   readonly categoryId: number;

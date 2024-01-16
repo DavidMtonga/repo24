@@ -2,12 +2,22 @@ import { ProductCollection } from "./collection";
 import { Request, Response } from "express";
 import cloudinary from "../utils/cloudinary";
 import { StatusCodes } from "http-status-codes";
+import { CategoryIdDTO, ProductDTO } from "./dto";
+import { validate } from "class-validator";
 
 const productCollection = new ProductCollection();
 
 export class ProductController {
   async addProductController(req: Request, res: Response) {
     try {
+      const productDTO = new ProductDTO(req.body);
+
+      const productErrors = await validate(productDTO);
+      if (productErrors.length > 0) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ errors: productErrors });
+      }
       cloudinary.v2.uploader.upload(
         req.file?.path,
         async function (err: Error, result: any | undefined) {
@@ -41,16 +51,24 @@ export class ProductController {
   }
   async findProductsByCategoryController(req: Request, res: Response) {
     try {
-      const { id } = req.params;
-      const categoryId = parseInt(id);
-      const products = await productCollection.findProductsByCategory({
-        categoryId,
+      const categoryIdDTO = new CategoryIdDTO({
+        categoryId: parseInt(req.params.id, 10), 
       });
+      const categoryIdErrors = await validate(categoryIdDTO);
+      if (categoryIdErrors.length > 0) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ errors: categoryIdErrors });
+      }
+
+      const products = await productCollection.findProductsByCategory(
+        categoryIdDTO
+      );
       return res.status(StatusCodes.OK).json(products);
     } catch (error: any) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: "Something went wrong",
-        error: error?.message || error,
+        error: error?.message,
       });
     }
   }
