@@ -1,3 +1,3 @@
-export default findProductsByCategory=async()=>{
-    return null;
-}
+export const findProductsByCategory = async () => {
+  return null;
+};
