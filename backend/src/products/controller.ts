@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { CategoryIdDTO, ProductDTO, UpdateProductImageDTO } from "./dto";
 import { validate } from "class-validator";
 import { ProductCollection } from "./collection";
-import { uploadImageController } from "../utils/multer";
+import { upload } from "../utils/multer";
 
 const productCollection = new ProductCollection();
 
@@ -34,38 +34,37 @@ export class ProductController {
 
   async updateProductImagesController(req: Request, res: Response) {
     try {
-      const files = req.files as Express.Multer.File[];
+      upload.array("images")(req, res, async (err: any) => {
+        if (err) {
+          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: "Failed to upload images",
+            error: err,
+          });
+        }
 
-      if (!files || !Array.isArray(files)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          errors: [{ message: "No files provided or invalid file format" }],
+        const images = req.files as Express.Multer.File[];
+        const updateProductImageDTO = new UpdateProductImageDTO({
+          id: parseInt(req.params.id, 10),
+          imageUrl: images.map((image) => image.filename),
         });
-      }
-      const updateProductImageDTO = new UpdateProductImageDTO({
-        id: parseInt(req.params.id, 10),
-        imageUrl: files.map((file) => file.path),
-      });
 
-      const updateImageErrors = await validate(updateProductImageDTO);
+        const updateImageErrors = await validate(updateProductImageDTO);
 
-      if (updateImageErrors.length > 0) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ errors: updateImageErrors.map((err) => err.constraints) });
-      }
-      const results = await Promise.all(
-        files.map((file) => uploadImageController(file))
-      );
+        if (updateImageErrors.length > 0) {
+          return res
+            .status(StatusCodes.BAD_REQUEST)
+            .json({ errors: updateImageErrors.map((err) => err.constraints) });
+        }
 
-      const imageUrls = results.map((result: any) => result.secure_url);
-      const updatedProduct = await productCollection.updateProductImages({
-        id: updateProductImageDTO.id,
-        imageUrl: imageUrls,
-      });
+        const updatedProduct = await productCollection.updateProductImages({
+          id: updateProductImageDTO.id,
+          imageUrl: updateProductImageDTO.imageUrl,
+        });
 
-      return res.status(StatusCodes.OK).json({
-        message: "Product images updated successfully",
-        product: updatedProduct,
+        return res.status(StatusCodes.OK).json({
+          message: "Product images updated successfully",
+          product: updatedProduct,
+        });
       });
     } catch (error: any) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -74,7 +73,6 @@ export class ProductController {
       });
     }
   }
-
   async findProductsByCategoryController(req: Request, res: Response) {
     try {
       const categoryIdDTO = new CategoryIdDTO({
