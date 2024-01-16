@@ -1,15 +1,7 @@
-import express, { Request, Response } from "express";
-import cloudinary from "../utils/cloudinary";
+import express from "express";
+import { ProductController } from "./controller";
 
 const productRouter = express.Router();
+const productController = new ProductController();
 
-productRouter.post("/add-product", (req: Request, res: Response) => {
-  cloudinary.v2.uploader.upload(
-    req.file?.path,
-    function (err: Error, result: any) {
-        if(err){
-            res.status()
-        }
-    }
-  );
-});
+productRouter.post("/add-product", productController.addProductController);
