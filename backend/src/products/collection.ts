@@ -1,8 +1,8 @@
 import { prisma } from "../config/db";
-import { ProductDTO } from "./dto";
+import { CategoryIdDTO, ProductDTO } from "./dto";
 
 export class ProductCollection {
-  async findProductsByCategory(categoryId: number) {
+  async findProductsByCategory({ categoryId }: CategoryIdDTO) {
     return prisma.product.findMany({
       where: {
         categoryId,

@@ -8,6 +8,18 @@ import {
   IsPositive,
 } from "class-validator";
 
+export class CategoryIdDTO {
+  @IsNotEmpty()
+  @Min(1)
+  @IsNumber()
+  @IsPositive()
+  readonly categoryId: number;
+
+  constructor(data: CategoryIdDTO) {
+    this.categoryId = data.categoryId;
+  }
+}
+
 export class ProductDTO {
   @IsNotEmpty()
   @IsString()

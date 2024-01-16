@@ -33,7 +33,21 @@ export class ProductController {
         }
       );
     } catch (error: any) {
-      console.error(error);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Something went wrong",
+        error: error?.message || error,
+      });
+    }
+  }
+  async findProductsByCategoryController(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const categoryId = parseInt(id);
+      const products = await productCollection.findProductsByCategory({
+        categoryId,
+      });
+      return res.status(StatusCodes.OK).json(products);
+    } catch (error: any) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: "Something went wrong",
         error: error?.message || error,
