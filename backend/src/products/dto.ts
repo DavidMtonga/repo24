@@ -55,6 +55,7 @@ export class UpdateProductImageDTO {
   @IsNotEmpty()
   @IsArray()
   @ArrayMinSize(1)
+  @IsString({ each: true })
   readonly imageUrl?: string[];
 
   @IsNotEmpty()

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import cloudinary from "../utils/cloudinary";
 import { StatusCodes } from "http-status-codes";
-import { CategoryIdDTO, ProductDTO } from "./dto";
+import { CategoryIdDTO, ProductDTO, UpdateProductImageDTO } from "./dto";
 import { validate } from "class-validator";
 import { ProductCollection } from "./collection";
+import { uploadImageController } from "../utils/multer";
 
 const productCollection = new ProductCollection();
 
@@ -18,7 +18,7 @@ export class ProductController {
           .status(StatusCodes.BAD_REQUEST)
           .json({ errors: productErrors.map((err) => err.constraints) });
       }
-      
+
       const product = await productCollection.addProduct(productDTO);
       return res.status(StatusCodes.OK).json({
         message: "Success",
@@ -32,31 +32,47 @@ export class ProductController {
     }
   }
 
-  async uploadImageController(file: Express.Multer.File | undefined): Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (!file) {
-        return reject("No file provided");
+  async updateProductImagesControllerreq(req: Request, res: Response) {
+    try {
+      const files = req.files as Express.Multer.File[];
+
+      if (!files || !Array.isArray(files)) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          errors: [{ message: "No files provided or invalid file format" }],
+        });
       }
-
-      cloudinary.v2.uploader.upload(file.path, async function (err: Error, result: any | undefined) {
-        if (err) {
-          reject({
-            message: "Failed to upload images",
-            error: err,
-          });
-        }
-
-        if (!result) {
-          reject({
-            message: "Cloudinary upload response is undefined",
-          });
-        }
-
-        // You can perform additional logic here if needed
-
-        resolve(result);
+      const updateProductImageDTO = new UpdateProductImageDTO({
+        id: parseInt(req.params.id, 10),
+        imageUrl: files.map((file) => file.path),
       });
-    });
+
+      const updateImageErrors = await validate(updateProductImageDTO);
+
+      if (updateImageErrors.length > 0) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ errors: updateImageErrors.map((err) => err.constraints) });
+      }
+      const results = await Promise.all(
+        files.map((file) => uploadImageController(file))
+      );
+
+      const imageUrls = results.map((result: any) => result.secure_url);
+      const updatedProduct = await productCollection.updateProductImages({
+        id: updateProductImageDTO.id,
+        imageUrl: imageUrls,
+      });
+
+      return res.status(StatusCodes.OK).json({
+        message: "Product images updated successfully",
+        product: updatedProduct,
+      });
+    } catch (error: any) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Something went wrong",
+        error: error?.message || error,
+      });
+    }
   }
 
   async findProductsByCategoryController(req: Request, res: Response) {
