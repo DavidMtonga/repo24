@@ -11,4 +11,9 @@ productRouter.get(
   productController.findProductsByCategoryController
 );
 
+productRouter.put(
+  "/upload-image/:id",
+  productController.updateProductImagesController
+);
+
 export default productRouter;

@@ -32,7 +32,7 @@ export class ProductController {
     }
   }
 
-  async updateProductImagesControllerreq(req: Request, res: Response) {
+  async updateProductImagesController(req: Request, res: Response) {
     try {
       const files = req.files as Express.Multer.File[];
 
