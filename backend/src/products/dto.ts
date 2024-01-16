@@ -2,8 +2,8 @@ import {
   IsNotEmpty,
   IsString,
   IsNumber,
-  // IsArray,
-  // ArrayMinSize,
+  IsArray,
+  ArrayMinSize,
   Min,
   IsPositive,
 } from "class-validator";
@@ -38,10 +38,6 @@ export class ProductDTO {
   @IsPositive()
   readonly stock?: number;
 
-  // @IsArray()
-  // @ArrayMinSize(1)
-  // readonly imageUrl?: string[];
-
   @IsNotEmpty()
   @IsNumber()
   readonly categoryId: number;
@@ -51,7 +47,23 @@ export class ProductDTO {
     this.description = data.description;
     this.price = data.price;
     this.stock = data.stock;
-    // this.imageUrl = data.imageUrl;
     this.categoryId = data.categoryId;
+  }
+}
+
+export class UpdateProductImageDTO {
+  @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(1)
+  readonly imageUrl?: string[];
+
+  @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
+  readonly id: number;
+
+  constructor(data: UpdateProductImageDTO) {
+    this.id = data.id;
+    this.imageUrl = data.imageUrl;
   }
 }
