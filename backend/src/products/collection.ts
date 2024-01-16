@@ -1,5 +1,5 @@
 export class ProductCollection {
-  findProductsByCategory = async () => {
+  async findProductsByCategory() {
     return null;
-  };
+  }
 }
