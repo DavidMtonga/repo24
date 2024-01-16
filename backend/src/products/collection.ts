@@ -1,3 +1,5 @@
-export const findProductsByCategory = async () => {
-  return null;
-};
+export class ProductCollection {
+  findProductsByCategory = async () => {
+    return null;
+  };
+}
