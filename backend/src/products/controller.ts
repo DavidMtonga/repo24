@@ -1,9 +1,9 @@
-import { ProductCollection } from "./collection";
 import { Request, Response } from "express";
 import cloudinary from "../utils/cloudinary";
 import { StatusCodes } from "http-status-codes";
 import { CategoryIdDTO, ProductDTO } from "./dto";
 import { validate } from "class-validator";
+import { ProductCollection } from "./collection";
 
 const productCollection = new ProductCollection();
 
@@ -18,37 +18,45 @@ export class ProductController {
           .status(StatusCodes.BAD_REQUEST)
           .json({ errors: productErrors.map((err) => err.constraints) });
       }
-
-      cloudinary.v2.uploader.upload(
-        req.file?.path,
-        async function (err: Error, result: any | undefined) {
-          if (err) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-              message: "Failed to upload images",
-              error: err,
-            });
-          }
-
-          if (!result) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-              message: "Cloudinary upload response is undefined",
-            });
-          }
-
-          const product = await productCollection.addProduct(req.body);
-          return res.status(StatusCodes.OK).json({
-            message: "Success",
-            product: product,
-            image: result,
-          });
-        }
-      );
+      
+      const product = await productCollection.addProduct(productDTO);
+      return res.status(StatusCodes.OK).json({
+        message: "Success",
+        product: product,
+      });
     } catch (error: any) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: "Something went wrong",
         error: error?.message || error,
       });
     }
+  }
+
+  async uploadImageController(file: Express.Multer.File | undefined): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        return reject("No file provided");
+      }
+
+      cloudinary.v2.uploader.upload(file.path, async function (err: Error, result: any | undefined) {
+        if (err) {
+          reject({
+            message: "Failed to upload images",
+            error: err,
+          });
+        }
+
+        if (!result) {
+          reject({
+            message: "Cloudinary upload response is undefined",
+          });
+        }
+
+        // You can perform additional logic here if needed
+
+        resolve(result);
+      });
+    });
   }
 
   async findProductsByCategoryController(req: Request, res: Response) {

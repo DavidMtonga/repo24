@@ -2,8 +2,8 @@ import {
   IsNotEmpty,
   IsString,
   IsNumber,
-  IsArray,
-  ArrayMinSize,
+  // IsArray,
+  // ArrayMinSize,
   Min,
   IsPositive,
 } from "class-validator";
@@ -38,9 +38,9 @@ export class ProductDTO {
   @IsPositive()
   readonly stock?: number;
 
-  @IsArray()
-  @ArrayMinSize(1)
-  readonly imageUrl: string[];
+  // @IsArray()
+  // @ArrayMinSize(1)
+  // readonly imageUrl?: string[];
 
   @IsNotEmpty()
   @IsNumber()
@@ -51,7 +51,7 @@ export class ProductDTO {
     this.description = data.description;
     this.price = data.price;
     this.stock = data.stock;
-    this.imageUrl = data.imageUrl;
+    // this.imageUrl = data.imageUrl;
     this.categoryId = data.categoryId;
   }
 }
