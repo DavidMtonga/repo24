@@ -37,14 +37,18 @@ export class AuthController {
         username: user.username,
         email: user.email,
       };
-      const token = jwt.sign(payload, `${process.env.JWT_SECRET}`, {
-        expiresIn: "1hr",
-      });
-      return res.status(StatusCodes.OK).json({
-        username: user.username,
-        email: user.email,
-        token: token,
-      });
+      const token = jwt.sign(payload, `${process.env.JWT_SECRET}`);
+      return res
+        .cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+        })
+        .status(StatusCodes.OK)
+        .json({
+          username: user.username,
+          email: user.email,
+          token: token,
+        });
     } catch (error: any) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: "Something went wrong",
