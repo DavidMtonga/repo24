@@ -16,4 +16,6 @@ productRouter.put(
   productController.updateProductImagesController
 );
 
+productRouter.get("/:id", productController.getProductByIdController);
+
 export default productRouter;
