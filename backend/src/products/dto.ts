@@ -20,6 +20,16 @@ export class CategoryIdDTO {
   }
 }
 
+export class ProductIdDTO {
+  @IsNotEmpty()
+  @IsPositive()
+  @IsNumber()
+  readonly id: number;
+
+  constructor(data: ProductIdDTO) {
+    this.id = data.id;
+  }
+}
 export class ProductDTO {
   @IsNotEmpty()
   @IsString()
