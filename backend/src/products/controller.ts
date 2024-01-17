@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { CategoryIdDTO, ProductDTO, UpdateProductImageDTO } from "./dto";
 import { validate } from "class-validator";
 import { ProductCollection } from "./collection";
-import { upload } from "../utils/multer";
+import { compressAndSaveToDB, upload } from "../utils/multer";
 
 const productCollection = new ProductCollection();
 
@@ -45,7 +45,9 @@ export class ProductController {
         const images = req.files as Express.Multer.File[];
         const updateProductImageDTO = new UpdateProductImageDTO({
           id: parseInt(req.params.id, 10),
-          imageUrl: images.map((image) => image.filename),
+          imageUrl: await Promise.all(
+            images.map(async (image) => compressAndSaveToDB(image.path))
+          ),
         });
 
         const updateImageErrors = await validate(updateProductImageDTO);
