@@ -25,5 +25,5 @@ app.get("/", (_, res: Response) => {
 });
 
 app.listen(port, () => {
-  console.log(`listening on https://localhost:${port}`);
+  console.log(`listening pa https://localhost:${port}`);
 });
