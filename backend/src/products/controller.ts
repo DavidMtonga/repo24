@@ -21,7 +21,7 @@ export class ProductController {
       if (productErrors.length > 0) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ errors: productErrors.map((err) => err.constraints) });
+          .json({ errors: productErrors.map((e) => e.constraints) });
       }
 
       const product = await productCollection.addProduct(productDTO);
@@ -47,7 +47,7 @@ export class ProductController {
       if (productIdDTOError.length > 0) {
         return res.status(StatusCodes.BAD_REQUEST).json({
           message: "Something went wrong",
-          error: productIdDTOError.map((item) => item.constraints),
+          error: productIdDTOError.map((e) => e.constraints),
         });
       }
       const product = await productCollection.getProductById(productIdDTO);
@@ -63,9 +63,9 @@ export class ProductController {
   async updateProductImagesController(req: Request, res: Response) {
     try {
       const uploadPromise = new Promise<void>((resolve, reject) => {
-        upload.array("images", 2)(req, res, (err: any) => {
-          if (err) {
-            reject(err);
+        upload.array("images", 2)(req, res, (e: any) => {
+          if (e) {
+            reject(e);
           } else {
             resolve();
           }
@@ -91,7 +91,7 @@ export class ProductController {
       if (updateImageErrors.length > 0) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ errors: updateImageErrors.map((err) => err.constraints) });
+          .json({ errors: updateImageErrors.map((e) => e.constraints) });
       }
 
       const updatedProduct = await productCollection.updateProductImages({
@@ -121,7 +121,7 @@ export class ProductController {
       if (categoryIdErrors.length > 0) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ errors: categoryIdErrors.map((err) => err.constraints) });
+          .json({ errors: categoryIdErrors.map((e) => e.constraints) });
       }
 
       const products = await productCollection.findProductsByCategory(
