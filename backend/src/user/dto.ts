@@ -13,7 +13,6 @@ export class UserLoginDTO {
   readonly email: string;
 
   @IsNotEmpty()
-  @Min(6)
   readonly password: string;
 
   constructor(d: UserLoginDTO) {
@@ -24,18 +23,15 @@ export class UserLoginDTO {
 
 export class UserRegisterDTO {
   @IsNotEmpty()
-  @Min(6)
-  @Max(20)
+  @IsString()
   readonly username: string;
 
   @IsEmail()
   @IsNotEmpty()
-  @Min(3)
+  @IsString()
   readonly email: string;
 
   @IsNotEmpty()
-  @Min(6)
-  @Max(20)
   readonly password: string;
 
   @IsNotEmpty()
@@ -70,18 +66,14 @@ export class UserUpdateDTO {
   readonly id: number;
 
   @IsNotEmpty()
-  @Min(6)
-  @Max(20)
+  @IsString()
   readonly username: string;
 
   @IsEmail()
   @IsNotEmpty()
-  @Min(3)
   readonly email: string;
 
   @IsNotEmpty()
-  @Min(6)
-  @Max(20)
   readonly password: string;
 
   @IsNotEmpty()
