@@ -9,8 +9,8 @@ interface IEmail {
 const transporter = createTransport({
   service: "gmail",
   auth: {
-    user: "",
-    pass: "",
+    user: process.env.G_USER,
+    pass: process.env.G_PASS,
   },
 });
 
