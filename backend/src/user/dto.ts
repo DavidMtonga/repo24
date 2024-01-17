@@ -98,3 +98,14 @@ export class UserUpdateDTO {
     this.address = data.address;
   }
 }
+
+export class UserResetLink {
+  @IsEmail()
+  @IsNotEmpty()
+  @Min(3)
+  readonly email: string;
+
+  constructor(d: UserResetLink) {
+    this.email = d.email;
+  }
+}
