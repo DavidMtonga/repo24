@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { UserLoginDTO } from "./dto";
+import { UserLoginDTO, UserRegisterDTO } from "./dto";
 import { validate } from "class-validator";
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../config/db";
-import { compare } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
+import { sendMail } from "../utils/functions";
 
 export class AuthController {
   async Login(req: Request, res: Response) {
@@ -49,6 +50,52 @@ export class AuthController {
           email: user.email,
           token: token,
         });
+    } catch (error: any) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Something went wrong",
+        error: error.message || error,
+      });
+    }
+  }
+
+  async Register(req: Request, res: Response) {
+    try {
+      const userRegisterDto = new UserRegisterDTO(req.body);
+      const userErrors = await validate(userRegisterDto);
+      if (userErrors.length > 0) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          error: userErrors.map((e) => e.constraints),
+        });
+      }
+      const exists = await prisma.user.findFirst({
+        where: {
+          email: userRegisterDto.email,
+        },
+      });
+      if (exists) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          error: "User already exists",
+        });
+      }
+      const hashedPassword = await hash(userRegisterDto.password, 10);
+      const user = await prisma.user.create({
+        data: {
+          username: userRegisterDto.username,
+          email: userRegisterDto.email,
+          address: userRegisterDto.address,
+          password: hashedPassword,
+        },
+      });
+      await sendMail({
+        to: userRegisterDto.email,
+        from: "retaila@info.com",
+        html: `<h1 style="background-color:red; width:100%; textAlign:center; padding:24px; color:white">User registeration successful</h1>
+        <p>Thank you for </p>`,
+      });
+      return res.status(StatusCodes.OK).json({
+        username: user.username,
+        message: "Successfully registered, kindly check your email and login",
+      });
     } catch (error: any) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: "Something went wrong",
