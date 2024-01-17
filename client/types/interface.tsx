@@ -1,7 +1,9 @@
-export default interface IProduct{
-    name:string;
-    category:string;
-    image:string[];
-    description:string
-    dateCreated:string;
+export default interface IProduct {
+  name: string;
+  description: string;
+  price: number;
+  stock?: number;
+  category: string;
+  image: string[];
+  dateCreated: string;
 }
