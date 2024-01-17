@@ -45,6 +45,11 @@ export class AuthController {
         email: user.email,
         token: token,
       });
-    } catch (error) {}
+    } catch (error: any) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Something went wrong",
+        error: error.message || error,
+      });
+    }
   }
 }
