@@ -8,7 +8,7 @@ import {
 } from "./dto";
 import { validate } from "class-validator";
 import { ProductCollection } from "./collection";
-import { compressAndSaveToDB, upload } from "../utils/multer";
+import {upload } from "../utils/multer";
 
 const productCollection = new ProductCollection();
 
@@ -75,9 +75,7 @@ export class ProductController {
       const images = req.files as Express.Multer.File[];
       const updateProductImageDTO = new UpdateProductImageDTO({
         id: parseInt(req.params.id, 10),
-        imageUrl: await Promise.all(
-          images.map(async (image) => compressAndSaveToDB(image.path))
-        ),
+        imageUrl: await Promise.all(images.map(async (image) => image.path)),
       });
 
       const updateImageErrors = await validate(updateProductImageDTO);
