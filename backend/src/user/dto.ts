@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsEmail, Min, Max, IsString } from "class-validator";
+import {
+  IsNotEmpty,
+  IsEmail,
+  Min,
+  Max,
+  IsString,
+  IsNumber,
+  IsPositive,
+} from "class-validator";
 export class UserLoginDTO {
   @IsEmail()
   @IsNotEmpty()
@@ -44,6 +52,16 @@ export class UserRegisterDTO {
   }
 }
 
-export class UserIdDTO {}
+export class UserIdDTO {
+  @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
+  @Min(0)
+  readonly id: number;
+
+  constructor(data: UserIdDTO) {
+    this.id = data.id;
+  }
+}
 
 export class UserUpdateDTO {}
