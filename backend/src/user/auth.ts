@@ -89,8 +89,13 @@ export class AuthController {
       await sendMail({
         to: userRegisterDto.email,
         from: "retaila@info.com",
-        html: `<h1 style="background-color:red; width:100%; textAlign:center; padding:24px; color:white">User registeration successful</h1>
-        <p>Thank you for </p>`,
+        html: `
+        <div style="background-color: #ff6347; text-align: center; padding: 24px; color: white;">
+          <h1>User Registration Successful</h1>
+        </div>
+        <p>Thank you ${user.username} for registering with us!</p>
+        <p>If you've forgotten your password, click on the forgot passord link in the login form to reset your password thanks!</p>
+      `,
       });
       return res.status(StatusCodes.OK).json({
         username: user.username,
