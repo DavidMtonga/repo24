@@ -18,9 +18,9 @@ export class UserLoginDTO {
   @Max(20)
   readonly password: string;
 
-  constructor(data: UserLoginDTO) {
-    this.email = data.email;
-    this.password = data.password;
+  constructor(d: UserLoginDTO) {
+    this.email = d.email;
+    this.password = d.password;
   }
 }
 
@@ -44,11 +44,11 @@ export class UserRegisterDTO {
   @IsString()
   readonly address?: string;
 
-  constructor(data: UserRegisterDTO) {
-    this.username = data.username;
-    this.email = data.email;
-    this.password = data.password;
-    this.address = data.address;
+  constructor(d: UserRegisterDTO) {
+    this.username = d.username;
+    this.email = d.email;
+    this.password = d.password;
+    this.address = d.address;
   }
 }
 
@@ -59,8 +59,8 @@ export class UserIdDTO {
   @Min(0)
   readonly id: number;
 
-  constructor(data: UserIdDTO) {
-    this.id = data.id;
+  constructor(d: UserIdDTO) {
+    this.id = d.id;
   }
 }
 
@@ -90,22 +90,40 @@ export class UserUpdateDTO {
   @IsString()
   readonly address?: string;
 
-  constructor(data: UserUpdateDTO) {
-    this.id = data.id;
-    this.username = data.username;
-    this.email = data.email;
-    this.password = data.password;
-    this.address = data.address;
+  constructor(d: UserUpdateDTO) {
+    this.id = d.id;
+    this.username = d.username;
+    this.email = d.email;
+    this.password = d.password;
+    this.address = d.address;
   }
 }
 
-export class UserResetLink {
+export class UserResetLinkDTO {
   @IsEmail()
   @IsNotEmpty()
   @Min(3)
   readonly email: string;
 
-  constructor(d: UserResetLink) {
+  constructor(d: UserResetLinkDTO) {
     this.email = d.email;
+  }
+}
+
+export class UserPasswordUpdateDTO {
+  @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
+  @Min(0)
+  readonly id: number;
+
+  @IsNotEmpty()
+  @Min(6)
+  @Max(20)
+  readonly password: string;
+
+  constructor(d: UserPasswordUpdateDTO) {
+    this.id = d.id;
+    this.password = d.password;
   }
 }
