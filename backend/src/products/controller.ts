@@ -8,7 +8,7 @@ import {
 } from "./dto";
 import { validate } from "class-validator";
 import { ProductCollection } from "./collection";
-import {upload } from "../utils/multer";
+import { upload } from "../utils/multer";
 
 const productCollection = new ProductCollection();
 
@@ -63,7 +63,7 @@ export class ProductController {
   async updateProductImagesController(req: Request, res: Response) {
     try {
       const uploadPromise = new Promise<void>((resolve, reject) => {
-        upload.array("images")(req, res, (err: any) => {
+        upload.array("images", 2)(req, res, (err: any) => {
           if (err) {
             reject(err);
           } else {
@@ -73,11 +73,19 @@ export class ProductController {
       });
       await uploadPromise;
       const images = req.files as Express.Multer.File[];
+      const imageUrls = await Promise.all(
+        images.map(async (image) => image.path)
+      );
+
+      if (imageUrls.length > 2) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          message: "Only a maximum of 2 images are allowed.",
+        });
+      }
       const updateProductImageDTO = new UpdateProductImageDTO({
         id: parseInt(req.params.id, 10),
-        imageUrl: await Promise.all(images.map(async (image) => image.path)),
+        imageUrl: imageUrls,
       });
-
       const updateImageErrors = await validate(updateProductImageDTO);
 
       if (updateImageErrors.length > 0) {
