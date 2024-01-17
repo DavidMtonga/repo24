@@ -74,7 +74,7 @@ export class ProductController {
       await uploadPromise;
       const images = req.files as Express.Multer.File[];
       const imageUrls = await Promise.all(
-        images.map(async (image) => image.path)
+        images.map(async (image) => String(image?.path))
       );
 
       if (imageUrls.length > 2) {
