@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { CategoryIdDTO, ProductDTO, UpdateProductImageDTO } from "./dto";
+import {
+  CategoryIdDTO,
+  ProductDTO,
+  ProductIdDTO,
+  UpdateProductImageDTO,
+} from "./dto";
 import { validate } from "class-validator";
 import { ProductCollection } from "./collection";
 import { compressAndSaveToDB, upload } from "../utils/multer";
@@ -32,56 +37,73 @@ export class ProductController {
     }
   }
 
-  async updateProductImagesController(req: Request, res: Response) {
-  try {
-    // Using a promise to wrap the upload.array middleware
-    const uploadPromise = new Promise<void>((resolve, reject) => {
-      upload.array("images")(req, res, (err: any) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
+  async getProductByIdController(req: Request, res: Response) {
+    try {
+      const productIdDTO = new ProductIdDTO({
+        id: parseInt(req.params.id, 10),
       });
-    });
+      const productIdDTOError = await validate(productIdDTO);
 
-    // Wait for the upload to finish
-    await uploadPromise;
-
-    // Process the images after upload is complete
-    const images = req.files as Express.Multer.File[];
-    const updateProductImageDTO = new UpdateProductImageDTO({
-      id: parseInt(req.params.id, 10),
-      imageUrl: await Promise.all(
-        images.map(async (image) => compressAndSaveToDB(image.path))
-      ),
-    });
-
-    const updateImageErrors = await validate(updateProductImageDTO);
-
-    if (updateImageErrors.length > 0) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ errors: updateImageErrors.map((err) => err.constraints) });
+      if (productIdDTOError.length > 0) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          message: "Something went wrong",
+          error: productIdDTOError.map((item) => item.constraints),
+        });
+      }
+      const product = await productCollection.getProductById(productIdDTO);
+      return res.status(StatusCodes.OK).json(product);
+    } catch (error: any) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Something went wrong",
+        error: error.message || error,
+      });
     }
-
-    const updatedProduct = await productCollection.updateProductImages({
-      id: updateProductImageDTO.id,
-      imageUrl: updateProductImageDTO.imageUrl,
-    });
-
-    return res.status(StatusCodes.OK).json({
-      message: "Product images updated successfully",
-      product: updatedProduct,
-    });
-  } catch (error: any) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      message: "Something went wrong",
-      error: error?.message || error,
-    });
   }
-}
 
+  async updateProductImagesController(req: Request, res: Response) {
+    try {
+      const uploadPromise = new Promise<void>((resolve, reject) => {
+        upload.array("images")(req, res, (err: any) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
+      await uploadPromise;
+      const images = req.files as Express.Multer.File[];
+      const updateProductImageDTO = new UpdateProductImageDTO({
+        id: parseInt(req.params.id, 10),
+        imageUrl: await Promise.all(
+          images.map(async (image) => compressAndSaveToDB(image.path))
+        ),
+      });
+
+      const updateImageErrors = await validate(updateProductImageDTO);
+
+      if (updateImageErrors.length > 0) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ errors: updateImageErrors.map((err) => err.constraints) });
+      }
+
+      const updatedProduct = await productCollection.updateProductImages({
+        id: updateProductImageDTO.id,
+        imageUrl: updateProductImageDTO.imageUrl,
+      });
+
+      return res.status(StatusCodes.OK).json({
+        message: "Product images updated successfully",
+        product: updatedProduct,
+      });
+    } catch (error: any) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Something went wrong",
+        error: error?.message || error,
+      });
+    }
+  }
 
   async findProductsByCategoryController(req: Request, res: Response) {
     try {
