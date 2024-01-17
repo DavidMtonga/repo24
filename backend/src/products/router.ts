@@ -1,7 +1,7 @@
-import express from "express";
+import { Router } from "express";
 import { ProductController } from "./controller";
 
-const productRouter = express.Router();
+const productRouter = Router();
 const productController = new ProductController();
 
 productRouter.post("/add", productController.addProductController);
