@@ -21,7 +21,7 @@ app.use("/api/product", productRouter);
 app.use("/api/user", authRouter);
 
 app.get("/", (_, res: Response) => {
-  res.send("API up");
+  res.send("API's up");
 });
 
 app.listen(port, () => {
