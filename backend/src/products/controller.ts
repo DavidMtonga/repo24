@@ -33,48 +33,56 @@ export class ProductController {
   }
 
   async updateProductImagesController(req: Request, res: Response) {
-    try {
-      upload.array("images")(req, res, async (err: any) => {
+  try {
+    // Using a promise to wrap the upload.array middleware
+    const uploadPromise = new Promise<void>((resolve, reject) => {
+      upload.array("images")(req, res, (err: any) => {
         if (err) {
-          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-            message: "Failed to upload images",
-            error: err,
-          });
+          reject(err);
+        } else {
+          resolve();
         }
-
-        const images = req.files as Express.Multer.File[];
-        const updateProductImageDTO = new UpdateProductImageDTO({
-          id: parseInt(req.params.id, 10),
-          imageUrl: await Promise.all(
-            images.map(async (image) => compressAndSaveToDB(image.path))
-          ),
-        });
-
-        const updateImageErrors = await validate(updateProductImageDTO);
-
-        if (updateImageErrors.length > 0) {
-          return res
-            .status(StatusCodes.BAD_REQUEST)
-            .json({ errors: updateImageErrors.map((err) => err.constraints) });
-        }
-
-        const updatedProduct = await productCollection.updateProductImages({
-          id: updateProductImageDTO.id,
-          imageUrl: updateProductImageDTO.imageUrl,
-        });
-
-        return res.status(StatusCodes.OK).json({
-          message: "Product images updated successfully",
-          product: updatedProduct,
-        });
       });
-    } catch (error: any) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        message: "Something went wrong",
-        error: error?.message || error,
-      });
+    });
+
+    // Wait for the upload to finish
+    await uploadPromise;
+
+    // Process the images after upload is complete
+    const images = req.files as Express.Multer.File[];
+    const updateProductImageDTO = new UpdateProductImageDTO({
+      id: parseInt(req.params.id, 10),
+      imageUrl: await Promise.all(
+        images.map(async (image) => compressAndSaveToDB(image.path))
+      ),
+    });
+
+    const updateImageErrors = await validate(updateProductImageDTO);
+
+    if (updateImageErrors.length > 0) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ errors: updateImageErrors.map((err) => err.constraints) });
     }
+
+    const updatedProduct = await productCollection.updateProductImages({
+      id: updateProductImageDTO.id,
+      imageUrl: updateProductImageDTO.imageUrl,
+    });
+
+    return res.status(StatusCodes.OK).json({
+      message: "Product images updated successfully",
+      product: updatedProduct,
+    });
+  } catch (error: any) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "Something went wrong",
+      error: error?.message || error,
+    });
   }
+}
+
+
   async findProductsByCategoryController(req: Request, res: Response) {
     try {
       const categoryIdDTO = new CategoryIdDTO({

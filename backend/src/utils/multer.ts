@@ -1,9 +1,9 @@
 import multer from "multer";
 import { promisify } from "util";
-import { createReadStream } from "fs";
+import { readFile } from "fs";
 import zlib from "zlib";
 
-const readFileAsync = promisify(createReadStream);
+const readFileAsync = promisify(readFile);
 
 export const multerStorage = multer.diskStorage({
   destination: (_req, _file, cb) => {
@@ -18,9 +18,8 @@ export const upload = multer({ storage: multerStorage });
 
 export async function compressAndSaveToDB(filePath: string): Promise<string> {
   try {
-    const fileContent = await readFileAsync(filePath, { encoding: "utf-8" });
-    const base64Data = Buffer.from(fileContent as string).toString("base64");
-    const compressedData = zlib.gzipSync(Buffer.from(base64Data, "base64"));
+    const fileContent = await readFileAsync(filePath, { encoding: "base64" });
+    const compressedData = zlib.gzipSync(Buffer.from(fileContent, "base64"));
     return compressedData.toString("base64");
   } catch (error: any) {
     throw new Error(`Failed to compress and save to DB: ${error.message}`);
