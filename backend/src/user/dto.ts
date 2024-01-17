@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsEmail, Min, Max } from "class-validator";
-
 export class UserLoginDTO {
   @IsEmail()
   @IsNotEmpty()
