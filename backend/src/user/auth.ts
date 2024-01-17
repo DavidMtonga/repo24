@@ -46,14 +46,10 @@ export class AuthController {
 
       const token = jwt.sign(payload, `${process.env.JWT_SECRET}`);
 
-      const fiveSeconds = 5 * 1000;
-      const expiryDate = new Date(Date.now() + fiveSeconds);
-
       return res
         .cookie("token", token, {
           httpOnly: true,
-          secure: true,
-          expires: expiryDate,
+          secure: process.env.NODE_ENV === 'production',
         })
         .status(StatusCodes.OK)
         .json({
