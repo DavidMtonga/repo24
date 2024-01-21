@@ -1,7 +1,7 @@
 import { AiOutlineUser, AiOutlineShoppingCart } from "react-icons/ai"
 import { BsSearch } from "react-icons/bs"
 import { IoIosMenu } from "react-icons/io"
-import CartCoountBadge from "./CartCoountBadge"
+import CartCountBadge from "./CartCountBadge"
 
 const MobNavbar = () => {
   return (
@@ -19,7 +19,7 @@ const MobNavbar = () => {
 
                 <div className=" relative cursor-pointer">
                     <AiOutlineShoppingCart />
-                    <CartCoountBadge size=" w-[25px] h-[25px]" />
+                    <CartCountBadge size=" w-[25px] h-[25px]" />
                 </div>
             </div>
 
@@ -29,4 +29,4 @@ const MobNavbar = () => {
   )
 }
 
-export default MobNavbar
+export default MobNavbar;
