@@ -3,7 +3,7 @@ interface propsType{
     size: string;
 }
 
-const CartCoountBadge: React.FC< propsType> = ({size}) => {
+const CartCountBadge: React.FC< propsType> = ({size}) => {
   return (
     <div className=" absolute bg-red-600 text-white text-[14px] ${size} -right-3 -top-1 rounded-full grid place-items-center">
       0
@@ -11,4 +11,4 @@ const CartCoountBadge: React.FC< propsType> = ({size}) => {
   )
 }
 
-export default CartCoountBadge
+export default CartCountBadge;
