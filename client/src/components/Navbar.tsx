@@ -1,6 +1,5 @@
 import { AiOutlineUser, AiOutlineShoppingCart } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
-import CartCountBadge from "./CartCountBadge";
 
 const Navbar = () => {
   return (
@@ -16,13 +15,12 @@ const Navbar = () => {
           <BsSearch className=" text-gray-500" size={20} />
         </div>
 
-        <div className="flex gap-4">
-          <div className="icon__wrapper">
-            <AiOutlineUser />
+        <div className="flex gap-4 items-center">
+          <div className="border p-3 rounded-full">
+            <AiOutlineUser size={20}/>
           </div>
-          <div className="icon__wrapper relative">
-            <AiOutlineShoppingCart />
-            <CartCountBadge size=" w-[25px] h-[25px]" />
+          <div className="border p-3 rounded-full">
+            <AiOutlineShoppingCart size={20}/>
           </div>
         </div>
       </div>
