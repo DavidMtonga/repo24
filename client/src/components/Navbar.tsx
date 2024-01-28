@@ -5,8 +5,8 @@ import { BsSearch } from "react-icons/bs";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className=" sticky top-0 z-10">
-      <div className="flex justify-between relative items-center gap-12 px-4 md:px-12 py-5">
+    <div className="sticky w-full bg-[#0a0a0a] top-0 z-10">
+      <div className="flex justify-between relative items-center gap-12 px-4 md:px-12 py-5 border-b border-gray-800 shadow-md">
         <h1 className="text-2xl text-red-600 font-bold">Retaila</h1>
         <div className="relative w-full max-w-sm border border-gray-500 rounded-full p-3 md:flex hidden items-center">
           <input
