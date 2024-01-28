@@ -5,7 +5,7 @@ import CartCountBadge from "./CartCountBadge";
 const Navbar = () => {
   return (
     <div className=" sticky top-0 z-10">
-      <div className="hidden lg:block px-4 md:px-12">
+      <div className="px-4 md:px-12">
         <div className="flex justify-between items-center gap-12">
           <h1 className=" text-4xl text-red-600 font-medium">Logo</h1>
           <div className=" relative w-full">

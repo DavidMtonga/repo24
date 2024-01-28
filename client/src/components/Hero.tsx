@@ -1,7 +1,7 @@
-import pic2 from "../images/pic2.jpg";
+import pic2 from "../assets/images/pic2.jpg";
 import { BsArrowRight } from "react-icons/bs";
-import pic4 from "../images/pic4.jpg";
-import pic3 from "../images/pic3.jpg";
+import pic4 from "../assets/images/pic4.jpg";
+import pic3 from "../assets/images/pic3.jpg";
 
 const Hero = () => {
   return (
