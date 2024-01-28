@@ -34,18 +34,18 @@ const Hero = () => {
             alt="hero image"
           />
         </div>
-        <div className="" style={{ backgroundImage: `url(${bg})` }}>
+        <div className="p-4 md:p-8 rounded-lg" style={{ backgroundImage: `url(${bg})` }}>
           <div className="">
             <h2 className=" text-xl sm:text-2xl font-bold backdrop-blur w-fit">
               {" "}
               Tech world products!
             </h2>
-            <p className=" backdrop-blur w-fittext-xl pt-2"> Starting At</p>
-            <div className=" font-medium text-red-600 text-2xl sm:text-4xl pb-2 sm:bp-8">
+            <p className=" backdrop-blur w-fit text-xl pt-2"> Starting At</p>
+            <div className=" text-red-200 font-bold text-2xl sm:text-4xl pb-2 sm:bp-8">
               {" "}
               K18.39
             </div>
-            <div className=" bg-accentDark hover:bg-accent text-white rounded-full w-fit flex items-center gap-4 px-2 py-1 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
+            <div className="bg-red-700 text-white rounded-full w-fit flex items-center gap-4 px-2 py-1 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
               Shop Now <BsArrowRight />
             </div>
           </div>
