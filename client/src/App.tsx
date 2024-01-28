@@ -1,4 +1,4 @@
-import CategoryCard from "./components/CategoryCard";
+import Category from "./components/Category";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 
@@ -7,7 +7,7 @@ const App = () => {
     <main>
       <Navbar />
       <Hero />
-      <CategoryCard img={""} name={""} count={""} />
+      <Category/>
     </main>
   );
 };

@@ -5,7 +5,7 @@ import pic3 from "../assets/images/pic3.jpg";
 
 const Hero = () => {
   return (
-    <div className="container py-16 min-h-screen">
+    <div className="container py-16 min-h-screen px-4 md:px-12">
       <div className="grid xl:grid-cols-3 xl:grid-rows-2 gap-8">
         <div
           className=" bg-cover bg-center xl:col-span-2 rounded-lg p-4 md:p-12 xl:row-start-1 xl:row-end-[-1]"
@@ -15,7 +15,7 @@ const Hero = () => {
             {" "}
             100% Original Apple headphones
           </p>
-          <h2 className=" text-2xl sm:text-4xl backdrop-blur md:text-6xl font-bold">
+          <h2 className=" text-2xl sm:text-4xl backdrop-blur w-fit md:text-6xl font-bold">
             {" "}
             High quality products!
           </h2>
@@ -24,7 +24,7 @@ const Hero = () => {
             {" "}
             K18.39
           </div>
-          <div className="text-white bg-red-700 rounded-full w-fit flex items-center gap-4 px-4 py-2 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
+          <div className="text-white bg-red-700 hover:bg-black duration-300 delay-200 hover:text-red-100 rounded-full w-fit flex items-center gap-4 px-4 py-2 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
             Shop Now <BsArrowRight />
           </div>
         </div>
@@ -46,7 +46,7 @@ const Hero = () => {
               {" "}
               K18.39
             </div>
-            <div className="bg-red-700 text-white rounded-full w-fit flex items-center gap-4 px-2 py-1 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
+            <div className="bg-red-700 hover:bg-black duration-300 delay-200 hover:text-red-100 text-white rounded-full w-fit flex items-center gap-4 px-2 py-1 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
               Shop Now <BsArrowRight />
             </div>
           </div>
