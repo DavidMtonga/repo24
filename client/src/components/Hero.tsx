@@ -1,4 +1,5 @@
 import bg from "../assets/images/hero.jpg";
+import bg2 from "../assets/images/bg2.jpg";
 import { BsArrowRight } from "react-icons/bs";
 import pic3 from "../assets/images/pic3.jpg";
 
@@ -34,7 +35,7 @@ const Hero = () => {
             alt="hero image"
           />
         </div>
-        <div className="p-4 md:p-8 rounded-lg" style={{ backgroundImage: `url(${bg})` }}>
+        <div className="p-4 md:p-8 rounded-lg" style={{ backgroundImage: `url(${bg2})` }}>
           <div className="">
             <h2 className=" text-xl sm:text-2xl font-bold backdrop-blur w-fit">
               {" "}
