@@ -8,23 +8,23 @@ const Hero = () => {
     <div className="container py-16 min-h-screen">
       <div className="grid xl:grid-cols-3 xl:grid-rows-2 gap-8">
         <div
-          className=" bg-cover bg-center xl:col-span-2 p-4 md:p-12 xl:row-start-1 xl:row-end-[-1]"
+          className=" bg-cover bg-center xl:col-span-2 rounded-lg p-4 md:p-12 xl:row-start-1 xl:row-end-[-1]"
           style={{ backgroundImage: `url(${bg})` }}
         >
           <p className="text-2xl hidden backdrop-blur w-fit sm:block">
             {" "}
             100% Original Apple headphones
           </p>
-          <h2 className=" text-2xl sm:text-4xl md:text-6xl font-bold">
+          <h2 className=" text-2xl sm:text-4xl backdrop-blur md:text-6xl font-bold">
             {" "}
             High quality products!
           </h2>
-          <p className=" text-gray-500 text-xl pt-4 sm:pt-8"> Starting At</p>
-          <div className=" text-red-600 font-bold text-2xl sm:text-4xl pb-4 sm:bp-8">
+          <p className=" text-gray-300 text-xl pt-4 sm:pt-8"> Starting At</p>
+          <div className=" text-red-200 font-bold text-2xl sm:text-4xl pb-4 sm:bp-8">
             {" "}
             K18.39
           </div>
-          <div className=" bg-accentDark hover:bg-accent text-white rounded-full w-fit flex items-center gap-4 px-4 py-2 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
+          <div className="text-white bg-red-700 rounded-full w-fit flex items-center gap-4 px-4 py-2 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
             Shop Now <BsArrowRight />
           </div>
         </div>
