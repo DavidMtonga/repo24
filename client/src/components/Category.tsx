@@ -56,7 +56,7 @@ const data = [
 
 const Category = () => {
   return (
-    <div className=" container pt-16 px-4 md:px-12">
+    <div className=" container py-8 px-4 md:px-12">
       <div className=" grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {data.map((el) => (
           <CategoryCard
