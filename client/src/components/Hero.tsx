@@ -1,6 +1,5 @@
 import bg from "../assets/images/hero.jpg";
 import { BsArrowRight } from "react-icons/bs";
-import pic4 from "../assets/images/pic4.jpg";
 import pic3 from "../assets/images/pic3.jpg";
 
 const Hero = () => {
@@ -35,21 +34,16 @@ const Hero = () => {
             alt="hero image"
           />
         </div>
-        <div className="relative">
-          <img
-            className=" h-full w-full object-cover rounded-lg"
-            src={pic4}
-            alt="hero image"
-          />
-          <div className="absolute max-w-[470px] sm:ml-16 ml-8 top-[50%] -translate-y-[50%] sm:space-y-4">
-            <h2 className=" text-xl sm:text-2xl font-bold text-blue-400">
+        <div className="" style={{ backgroundImage: `url(${bg})` }}>
+          <div className="">
+            <h2 className=" text-xl sm:text-2xl font-bold backdrop-blur w-fit">
               {" "}
               Tech world products!
             </h2>
-            <p className=" text-blue-400 text-xl pt-2"> Starting At</p>
+            <p className=" backdrop-blur w-fittext-xl pt-2"> Starting At</p>
             <div className=" font-medium text-red-600 text-2xl sm:text-4xl pb-2 sm:bp-8">
               {" "}
-              $18.39
+              K18.39
             </div>
             <div className=" bg-accentDark hover:bg-accent text-white rounded-full w-fit flex items-center gap-4 px-2 py-1 text-[14px] sm:px-6 sm:py-3 cursor-pointer">
               Shop Now <BsArrowRight />
