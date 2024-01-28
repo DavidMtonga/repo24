@@ -2,13 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background: #0a0a0a;
-    color: white;
+body {
+  background: #0a0a0a;
+  color: white;
 }
 
-@layer components{
-    .icon__wrapper{
-        @apply border border-gray-400 rounded-full w-[50px] h-[50px] grid place-items-center text-[22px]
-    }
+body,
+html {
+  overflow-x: hidden;
+}
+
+@layer components {
+  .icon__wrapper {
+    @apply border border-gray-400 rounded-full w-[50px] h-[50px] grid place-items-center text-[22px];
+  }
 }

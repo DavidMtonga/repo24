@@ -6,7 +6,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className=" sticky top-0 z-10">
-      <div className="flex justify-between items-center gap-12 px-4 md:px-12 py-5">
+      <div className="flex justify-between relative items-center gap-12 px-4 md:px-12 py-5">
         <h1 className="text-2xl text-red-600 font-bold">Retaila</h1>
         <div className="relative w-full max-w-sm border border-gray-500 rounded-full p-3 md:flex hidden items-center">
           <input
@@ -24,7 +24,7 @@ const Navbar = () => {
           <div className="border md:p-3 p-2 rounded-full border-gray-500">
             <AiOutlineShoppingCart size={20} />
           </div>
-          <button onClick={() => setOpen(!open)}>
+          <button className=" md:hidden block" onClick={() => setOpen(!open)}>
             {open ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -53,6 +53,21 @@ const Navbar = () => {
               </svg>
             )}
           </button>
+        </div>
+        <div
+          className={`bg-[#0a0a0a] origin-top bg-opacity-95 w-full absolute md:hidden top-[100%] right-0 ${
+            open ? "scale-100" : "scale-y-0"
+          } duration-300 delay-150 flex flex-col justify-end py-6 px-4`}
+          style={{ backdropFilter: "blur(10px)" }}
+        >
+          <div className="relative w-full max-w-sm border border-gray-500 rounded-full p-3 flex md:hidden items-center">
+            <input
+              className="outline-none bg-inherit flex-1 "
+              type="text"
+              placeholder="Search product..."
+            />
+            <BsSearch className=" text-gray-500" size={20} />
+          </div>
         </div>
       </div>
     </div>
