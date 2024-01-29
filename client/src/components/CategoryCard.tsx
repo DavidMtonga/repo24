@@ -18,4 +18,4 @@ const CategoryCard: React.FC< propsType> = ({ img, name, count})=> {
   )
 }
 
-export default CategoryCard
+export default CategoryCard;
