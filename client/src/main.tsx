@@ -5,6 +5,7 @@ import "./index.css";
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
+          <Toaster position="top-center" />
           <App />
         </BrowserRouter>
       </QueryClientProvider>
