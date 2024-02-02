@@ -1,14 +1,17 @@
-import Category from "./components/Category";
-import Hero from "./components/Hero";
+import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Home from "./Pages/Home";
+import AddProduct from "./Pages/AddProduct";
 
 const App = () => {
   return (
-    <main>
+    <>
       <Navbar />
-      <Hero />
-      <Category/>
-    </main>
+      <Routes>
+        <Route path="/" Component={Home} />
+        <Route path="/add-product" Component={AddProduct}/>
+      </Routes>
+    </>
   );
 };
 
