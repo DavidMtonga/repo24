@@ -6,3 +6,5 @@ const CategoryRouter = Router();
 const categoryController = new CategoryController();
 
 CategoryRouter.get("/all", authorization, categoryController.GetAllCategories);
+
+export default CategoryRouter;
