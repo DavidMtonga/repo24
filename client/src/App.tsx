@@ -1,17 +1,16 @@
 import { Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import Home from "./Pages/Home";
 import AddProduct from "./Pages/AddProduct";
+import Layout from "./components/Global/Layout";
 
 const App = () => {
   return (
-    <>
-      <Navbar />
+    <Layout>
       <Routes>
         <Route path="/" Component={Home} />
-        <Route path="/add-product" Component={AddProduct}/>
+        <Route path="/add-product" Component={AddProduct} />
       </Routes>
-    </>
+    </Layout>
   );
 };
 
