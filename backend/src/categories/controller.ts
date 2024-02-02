@@ -10,6 +10,11 @@ export class CategoryController {
   async GetAllCategories(_req: Request, res: Response) {
     try {
       const categories = await categoryCollection.findAllCategories();
+      if (categories.length === 0) {
+        return res.status(StatusCodes.NOT_FOUND).json({
+          message: "No categories found",
+        });
+      }
       return res.status(StatusCodes.OK).json(categories);
     } catch (error: any) {
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({

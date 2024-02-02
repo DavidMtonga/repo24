@@ -1,5 +1,5 @@
-export default interface IProduct {
-  id:number;
+export interface IProduct {
+  id: number;
   name: string;
   description: string;
   price: number;
@@ -7,4 +7,9 @@ export default interface IProduct {
   category: string;
   imageUrl: string[];
   dateCreated: string;
+}
+
+export interface ICategory {
+  id: number;
+  name: string;
 }

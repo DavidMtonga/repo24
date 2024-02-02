@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { uploadImagesToStorage } from "../utils/functions";
 import { useMutation, useQuery } from "react-query";
-import axios from "axios";
 import { API_URL } from "../api/urls";
 import IconAdd from "../assets/icons/AddIcon";
 import CloseIcon from "../assets/icons/CloseIcon";
+import { ICategory } from "../types/interface";
+import Cookies from "js-cookie";
 
 const AddProduct = () => {
   const [images, setImages] = useState<FileList | null>(null);
@@ -12,20 +13,26 @@ const AddProduct = () => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const token = Cookies.get("token");
 
-  //   const { isError } = useQuery(
-  //     "getCategories",
-  //     async () => {
-  //       const res = await API_URL.get("/");
-  //       return res.data;
-  //     },
-  //     {
-  //       onSuccess(data) {
-  //         console.log(data);
-  //       },
-  //     }
-  //   );
+  const { isLoading } = useQuery(
+    "getCategories",
+    async () => {
+      const res = await API_URL.get("/category/all", {
+        headers: {
+          "auth-token": `${token}`,
+        },
+      });
+      return res.data;
+    },
+    {
+      onSuccess(data) {
+        setCategories(data);
+      },
+    }
+  );
 
   const handleUpload = async () => {
     if (!images || images.length === 0) {
@@ -44,14 +51,22 @@ const AddProduct = () => {
   const { mutate } = useMutation(
     "addProducts",
     async (imagesToUpload: string[]) => {
-      const res = await axios.post("server-url", {
-        name: name,
-        description: description,
-        price: parseInt(price),
-        stock: 1,
-        categoryId: selectedCategory,
-        imageUrl: imagesToUpload,
-      });
+      const res = await API_URL.post(
+        "/product/add",
+        {
+          name: name,
+          description: description,
+          price: parseInt(price),
+          stock: 1,
+          categoryId: parseInt(selectedCategory),
+          imageUrl: imagesToUpload,
+        },
+        {
+          headers: {
+            "auth-token": `${token}`,
+          },
+        }
+      );
       return res.data;
     },
     {
@@ -103,6 +118,7 @@ const AddProduct = () => {
       setImagePreviews(updatedImagePreviews);
     }
   };
+
   return (
     <section className=" min-h-screen py-12 px-4 md:px-12 flex flex-col w-full items-center justify-center">
       <h1 className=" mb-5 font-bold text-3xl">Add Products</h1>
@@ -115,6 +131,31 @@ const AddProduct = () => {
             onChange={(e) => setName(e.target.value)}
             className=" bg-inherit text-white w-full focus:outline-none border border-gray-400 p-3 rounded"
           />
+        </div>
+        <div className=" w-full">
+          <select
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className=" bg-inherit text-white w-full capitalize appearance-none focus:outline-none border border-gray-400 p-3 rounded"
+          >
+            <option className=" bg-black accent-inherit">
+              Select Category
+            </option>
+            {isLoading ? (
+              <option className=" bg-black accent-inherit">Loading...</option>
+            ) : (
+              <>
+                {categories.map((c) => (
+                  <option
+                    key={c.id}
+                    className=" bg-black accent-inherit border-none appearance-none"
+                    value={c.id}
+                  >
+                    {c.name}
+                  </option>
+                ))}
+              </>
+            )}
+          </select>
         </div>
         <div className=" w-full">
           <input

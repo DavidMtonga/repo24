@@ -12,12 +12,15 @@ export const authorization = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.cookies.token;
+  const token = req.header("auth-token");
+
   if (!token) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
       error: "Unauthorized access, please login",
     });
   }
+  req.headers['auth-token'] = token;
+
   try {
     const user = jwt.verify(token, `${process.env.JWT_SECRET}`) as JwtPayload;
     req.id = user.sub as string;
