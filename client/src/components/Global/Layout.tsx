@@ -9,7 +9,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   return (
     <div className="mx-auto max-w-7xl w-full items-center justify-center flex flex-col">
       <Navbar />
-      <main>{children}</main>
+      <main className="w-full">{children}</main>
     </div>
   );
 };
