@@ -1,10 +1,5 @@
 import { prisma } from "../config/db";
-import {
-  CategoryIdDTO,
-  ProductDTO,
-  ProductIdDTO,
-  UpdateProductImageDTO,
-} from "./dto";
+import { CategoryIdDTO, ProductDTO, UpdateProductImageDTO } from "./dto";
 
 export class ProductCollection {
   async findProductsByCategory({ categoryId }: CategoryIdDTO) {
@@ -15,7 +10,7 @@ export class ProductCollection {
     });
   }
 
-  async getProductById({ id }: ProductIdDTO) {
+  async getProductById({ id }: Pick<UpdateProductImageDTO, "id">) {
     return prisma.product.findUnique({
       where: { id },
     });

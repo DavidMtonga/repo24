@@ -2,8 +2,8 @@ import { useState } from "react";
 import { AiOutlineUser, AiOutlineShoppingCart } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 
-const Navbar = () => {
-  const [open, setOpen] = useState(false);
+const Navbar: React.FC = () => {
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <div className="sticky w-full bg-[#0a0a0a] top-0 z-10">
       <div className="flex justify-between relative items-center gap-12 px-4 md:px-12 py-5 border-b border-gray-800 shadow-md">
