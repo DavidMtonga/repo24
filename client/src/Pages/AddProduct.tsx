@@ -3,6 +3,8 @@ import { uploadImagesToStorage } from "../utils/functions";
 import { useMutation, useQuery } from "react-query";
 import axios from "axios";
 import { API_URL } from "../api/urls";
+import IconAdd from "../assets/icons/AddIcon";
+import CloseIcon from "../assets/icons/CloseIcon";
 
 const AddProduct = () => {
   const [images, setImages] = useState<FileList | null>(null);
@@ -102,9 +104,9 @@ const AddProduct = () => {
     }
   };
   return (
-    <section className=" w-full flex bg-red-700">
+    <section className=" min-h-screen py-12 px-4 md:px-12 flex flex-col w-full items-center justify-center">
       <h1 className=" mb-5 font-bold text-3xl">Add Products</h1>
-      <main className=" flex flex-col gap-4  items-center justify-center">
+      <main className=" flex flex-col gap-4  items-center justify-center w-full md:max-w-md lg:max-w-lg">
         <div className=" w-full">
           <input
             placeholder="Name"
@@ -114,7 +116,7 @@ const AddProduct = () => {
             className=" bg-inherit text-white w-full focus:outline-none border border-gray-400 p-3 rounded"
           />
         </div>
-        <div>
+        <div className=" w-full">
           <input
             placeholder="Price"
             type="number"
@@ -123,7 +125,7 @@ const AddProduct = () => {
             className=" bg-inherit text-white w-full focus:outline-none border border-gray-400 p-3 rounded"
           />
         </div>
-        <div>
+        <div className=" w-full">
           <textarea
             placeholder="Product Description"
             value={description}
@@ -132,20 +134,21 @@ const AddProduct = () => {
           ></textarea>
         </div>
 
-        <div>
+        <div className=" w-full">
           <input
             type="file"
             multiple
+            title="Upload"
             onChange={handleImageChange}
             accept="image/*"
-            className=" bg-inherit text-white w-full focus:outline-none border border-gray-400 p-3 rounded"
+            className=" bg-inherit text-white w-full hover:file:opacity-80 file:bg-white file:p-3 file:rounded file:border-none focus:outline-none border border-gray-400 p-3 rounded"
           />
           {imagePreviews.length > 0 && (
-            <div className=" bg-inherit text-white focus:outline-none border grid grid-cols-3 gap-3 border-gray-400 p-3 rounded">
+            <div className=" bg-inherit text-white focus:outline-none border-t-0 border-dashed border grid md:grid-cols-3 grid-cols-1 gap-3 border-gray-400 p-3 rounded">
               {imagePreviews.map((url, index) => (
                 <div
                   key={index}
-                  className="w-32 h-32 flex items-center justify-center relative"
+                  className="w-full md:h-32 h-40 flex items-center justify-center relative"
                 >
                   <img
                     src={url}
@@ -154,24 +157,22 @@ const AddProduct = () => {
                   />
                   <button
                     onClick={() => handleRemoveImage(index)}
-                    className=" absolute top-0 right-0 z-10 bg-red-400 rounded-full p-2"
+                    className=" absolute top-0 right-0 z-10 bg-red-500 rounded p-1"
                   >
-                    <svg
-                      viewBox="0 0 470 1000"
-                      fill="currentColor"
-                      height="1.3em"
-                      width="1.3em"
-                    >
-                      <path d="M452 656c12 12 18 26.333 18 43s-6 31-18 43c-12 10.667-26.333 16-43 16s-31-5.333-43-16L234 590 102 742c-12 10.667-26.333 16-43 16s-31-5.333-43-16C5.333 730 0 715.667 0 699s5.333-31 16-43l138-156L16 342C5.333 330 0 315.667 0 299s5.333-31 16-43c12-10.667 26.333-16 43-16s31 5.333 43 16l132 152 132-152c12-10.667 26.333-16 43-16s31 5.333 43 16c12 12 18 26.333 18 43s-6 31-18 43L314 500l138 156" />
-                    </svg>
+                    <CloseIcon />
                   </button>
                 </div>
               ))}
             </div>
           )}
         </div>
-
-        <button onClick={handleUpload}>Upload</button>
+        <button
+          onClick={handleUpload}
+          className="bg-white text-black flex items-center gap-2 p-3 rounded-md w-full justify-center"
+        >
+          <span>Upload</span>
+          <IconAdd />
+        </button>
       </main>
     </section>
   );
