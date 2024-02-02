@@ -9,7 +9,7 @@ const Hero = () => {
       <div className="grid xl:grid-cols-3 xl:grid-rows-2 gap-8">
         <div
           className=" bg-cover bg-center xl:col-span-2 rounded-lg p-4 md:p-12 xl:row-start-1 xl:row-end-[-1]"
-          style={{ backgroundImage: `url(${bg})` }}
+          style={{ backgroundImage: `url(${bg2})` }}
         >
           <p className="text-2xl hidden backdrop-blur w-fit sm:block">
             {" "}
@@ -35,7 +35,7 @@ const Hero = () => {
             alt="hero image"
           />
         </div>
-        <div className="p-4 md:p-8 rounded-lg" style={{ backgroundImage: `url(${bg2})` }}>
+        <div className="p-4 md:p-8 rounded-lg" style={{ backgroundImage: `url(${bg})` }}>
           <div className="">
             <h2 className=" text-xl sm:text-2xl font-bold backdrop-blur w-fit">
               {" "}
