@@ -3,7 +3,11 @@ import pic2 from "../assets/images/pic2.jpg";
 import pic3 from "../assets/images/pic3.jpg";
 import pic4 from "../assets/images/pic4.jpg";
 
-const data = [
+interface Props {
+  [index: string]: string | number;
+}
+
+const data: Props[] = [
   {
     id: 0,
     name: "laptops",
@@ -61,9 +65,9 @@ const Category = () => {
         {data.map((el) => (
           <CategoryCard
             key={el.id}
-            img={el.img}
-            name={el.name}
-            count={el.count}
+            img={el.img as string}
+            name={el.name as string}
+            count={el.count as string}
           />
         ))}
       </div>
@@ -71,4 +75,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Category
