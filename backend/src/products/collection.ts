@@ -1,5 +1,5 @@
 import { prisma } from "../config/db";
-import { CategoryIdDTO, ProductDTO, UpdateProductImageDTO } from "./dto";
+import { CategoryIdDTO, ProductDTO, UpdateProductImageDTO } from "./products.dto";
 
 export class ProductCollection {
   async findProductsByCategory({ categoryId }: CategoryIdDTO) {

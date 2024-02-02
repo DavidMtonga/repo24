@@ -5,7 +5,7 @@ import {
   ProductDTO,
   ProductIdDTO,
   UpdateProductImageDTO,
-} from "./dto";
+} from "./products.dto";
 import { validate } from "class-validator";
 import { ProductCollection } from "./collection";
 import { upload } from "../utils/multer";
