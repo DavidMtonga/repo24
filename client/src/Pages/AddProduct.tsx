@@ -10,6 +10,10 @@ const AddProduct = () => {
 
     if (selectedFiles) {
       const newImages = Array.from(selectedFiles).slice(0, 3);
+      if (newImages.length + (images ? images.length : 0) > 3) {
+        alert("You can only upload up to 3 images");
+        return;
+      }
       const existingImages = images ? Array.from(images) : [];
       const combinedImages = [...existingImages, ...newImages];
 
@@ -56,8 +60,6 @@ const AddProduct = () => {
       console.error("Error adding products:", error);
     }
   };
-  console.log(images);
-
   return (
     <div>
       <input
