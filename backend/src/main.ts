@@ -6,6 +6,7 @@ import morgan from "morgan";
 import productRouter from "./products/router";
 import cookieParser from "cookie-parser";
 import authRouter from "./user/router";
+import CategoryRouter from "./categories/router";
 
 const app: Application = express();
 const port = process.env.PORT || 5000;
@@ -19,11 +20,12 @@ app.use(morgan("dev"));
 
 app.use("/api/product", productRouter);
 app.use("/api/user", authRouter);
+app.use("/api/category",CategoryRouter)
 
 app.get("/", (_, res: Response) => {
   res.send("API's up");
 });
 
 app.listen(port, () => {
-  console.log(`listening pa https://localhost:${port}`);
+  console.log(`listening pa http://localhost:${port}`);
 });

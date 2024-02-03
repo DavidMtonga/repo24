@@ -49,6 +49,12 @@ export class ProductDTO {
   readonly stock?: number;
 
   @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsString({ each: true })
+  readonly imageUrl: string[];
+
+  @IsNotEmpty()
   @IsNumber()
   readonly categoryId: number;
 
@@ -58,6 +64,7 @@ export class ProductDTO {
     this.price = data.price;
     this.stock = data.stock;
     this.categoryId = data.categoryId;
+    this.imageUrl = data.imageUrl;
   }
 }
 

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { AiOutlineUser, AiOutlineShoppingCart } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
-  const [open, setOpen] = useState(false);
+const Navbar: React.FC = () => {
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <div className="sticky w-full bg-[#0a0a0a] top-0 z-10">
       <div className="flex justify-between relative items-center gap-12 px-4 md:px-12 py-5 border-b border-gray-800 shadow-md">
-        <h1 className="text-2xl text-red-600 font-bold">Retaila</h1>
+        <Link to={"/"} className="text-2xl text-red-600 font-bold">Retaila</Link>
         <div className="relative w-full max-w-sm border border-gray-500 rounded-full p-3 md:flex hidden items-center">
           <input
             className="outline-none bg-inherit flex-1 "
@@ -18,9 +19,9 @@ const Navbar = () => {
         </div>
 
         <div className="flex gap-4 items-center">
-          <div className="border md:p-3 p-2 rounded-full border-gray-500">
+          <Link to={"/add-product"} className="border md:p-3 p-2 rounded-full border-gray-500">
             <AiOutlineUser size={20} />
-          </div>
+          </Link>
           <div className="border md:p-3 p-2 rounded-full border-gray-500">
             <AiOutlineShoppingCart size={20} />
           </div>

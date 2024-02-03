@@ -1,5 +1,4 @@
 import Banner from "./components/Banner";
-import BlogSection from "./components/BlogSection";
 import Category from "./components/Category";
 import FeatureSectionAccessories from "./components/FeatureSectionAccessories";
 import FeatureSectionTech from "./components/FeatureSectionTech";
@@ -15,7 +14,6 @@ const App = () => {
       <FeatureSectionTech />
       <FeatureSectionAccessories />
       <Banner />
-      <BlogSection />
     </main>
   );
 };
